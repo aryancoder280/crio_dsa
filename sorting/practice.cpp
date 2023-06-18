@@ -1,31 +1,71 @@
 #include <bits/stdc++.h>
+
 using namespace std;
 
-bool comp(string a, string b) {
-    int val = a.compare(b);
-    if(val<=0)return true;
-    return false;
-}
-vector<string> numSort(int n , vector<string >& numbers){
-    sort(numbers.begin() ,numbers.end(),comp);
-    return numbers;
-}
 
+class ThreeSum {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int> > answer;
+        set<tuple<int,int,int>>s;
+        int n = nums.size();
+        unordered_map<int,int>mp;
+        for(int i=0;i<n;i++) {
+            if(mp.find(nums[i]) == mp.end()) mp[nums[i]] = 1;
+            else {
+                mp[nums[i]]++;
+            }
+        }
+        for(int i=0;i<n;i++) {
+            for(int j=i+1;j<n;j++) {
+                int a = nums[i];
+                int b = nums[j];
+                int c = a+b;
+                int search = -c;
+                cout<<a<<" "<<mp[a]<<" "<<b<<" "<<mp[b]<<" "<<c<<endl;
+                mp[a]--;
+                mp[b]--;
 
-int main(){
-    int n;
-    cin>>n;
-    vector<string > numbers(n);
-    /*for(auto &str:numbers){
-        cin>> str;
+                if(mp.find(search)!=mp.end() && mp[search]!=0) {
+                    c = search;
+                    cout<<"search ="<<c<<endl;
+                    tuple<int,int,int>tp;
+                    if(a>b) swap(a,b);
+                    if(a>c) swap(a,c);
+                    if(b>c) swap(b,c);
+                    cout<<"afer swapping="<<a<<" "<<b<<" "<<c<<endl;
+                    tp = make_tuple(a,b,c);
+                    s.insert(tp);
+                }
+                mp[a]++;
+                mp[b]++;
+
+            }
+        }
+        for(auto x:s) {
+            vector<int>v;
+            v.push_back(get<0>(x));
+            v.push_back(get<1>(x));
+            v.push_back(get<2>(x));
+            answer.push_back(v);
+        }
+        return answer;
     }
-    vector<string> result = numSort(n, numbers);
-    for(auto &str: result){
-        cout<< str<<" ";
-    }*/
-    string a,b;
-    cin>>a>>b;
-    cout<<(a<b)<<endl;
+};
+
+int main() {
+//    FastIO();
+    int n;
+    cin >> n;
+    vector<int> nums;
+    ReadMatrix<int>().OneDMatrix(n, nums);
+
+    vector<vector<int>> result = ThreeSum().threeSum(nums);
+    for (unsigned int i = 0; i < result.size(); i++) {
+        cout << result[i][0] << " " << result[i][1] << " " << result[i][2];
+        cout << endl;
+    }
+    return 0;
 }
 
 /*
@@ -58,4 +98,3 @@ Milestone 4: Prove to the interviewer that your code works with unit tests
 2. Time & storage complexity
 3. Suggest optimizations if applicable
 */
-
