@@ -1,0 +1,1 @@
+1) Find the Maximum length of the subarray(l,r) where l<=i<=r, such that a[i] is the maximum.(Too much to think about corner cases)
